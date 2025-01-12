@@ -1,15 +1,17 @@
-# Usa una imagen base de Maven para construir el JAR
-FROM maven:3.8.8-openjdk-17 AS build
+# Usa una imagen base de Maven con OpenJDK 17 para construir el JAR
+FROM maven:3.8.7-eclipse-temurin-17 AS build
+
+# Establece el directorio de trabajo
+WORKDIR /app
 
 # Copia el código fuente al contenedor
-WORKDIR /app
 COPY . .
 
 # Ejecuta el comando de Maven para construir el JAR
 RUN mvn clean package -DskipTests
 
-# Usa una imagen más liviana para ejecutar el JAR
-FROM openjdk:17-jdk-slim
+# Usa una imagen más ligera de OpenJDK para ejecutar el JAR
+FROM eclipse-temurin:17-jdk-jammy
 
 # Establece el directorio de trabajo
 WORKDIR /app
